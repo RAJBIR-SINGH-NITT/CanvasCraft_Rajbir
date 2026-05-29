@@ -31,6 +31,8 @@ class MainActivity : ComponentActivity() {
             var image1 by remember{mutableIntStateOf(R.drawable.pic_three)}
             var image2 by remember{mutableIntStateOf(R.drawable.pic_four)}
 
+            var gridSize by remember { mutableIntStateOf(1) }
+
 
             //this makes the screen fill completely and sets  white background
             Surface(
@@ -50,11 +52,25 @@ class MainActivity : ComponentActivity() {
                         style=MaterialTheme.typography.bodySmall
                     )
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Button(onClick = { gridSize = 1 }) { Text("Normal") }
+                        Button(onClick = { gridSize = 2 }) { Text("2x2") }
+                        Button(onClick = { gridSize = 3 }) { Text("3x3") }
+                        Button(onClick = { gridSize = 4 }) { Text("4x4") }
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
                     // This is my collage area
                     TwoGridVerticalLayout(
                         image1 = image1,
                         image2 = image2,   /// first i had done R.drawable.pic_three,but we are passing the drawable directly, not your variable.
-
+                        gridSize = gridSize,
                         spacing = gapSize.dp,
                         cornerRadius = roundness.dp,
                         modifier = Modifier.weight(1f)
@@ -117,7 +133,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                     Text(
-                        text = "*         MADE IN INDIA BY INDIAN,RAJBIR THE MASTERMIND          *",
+                        text = "* MADE IN INDIA BY INDIAN,RAJBIR THE MASTERMIND          *",
                         style = MaterialTheme.typography.bodySmall
                     )
 

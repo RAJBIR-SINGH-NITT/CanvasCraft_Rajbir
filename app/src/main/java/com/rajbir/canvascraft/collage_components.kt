@@ -20,34 +20,57 @@ import androidx.compose.ui.unit.Dp
 fun TwoGridVerticalLayout(
     image1: Int,
     image2: Int,
+    gridSize: Int,
     spacing: Dp,
     cornerRadius: Dp,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        // Image Box(top)
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .padding(bottom = spacing / 2)
-                .clip(RoundedCornerShape(cornerRadius))
-        ) {
-            //  this will take one image and make it like that  way so that we can see in the screen
-            ///we can zoom,rotate,change all the configuration etc..
-            RajbirImage(imageRes = image1)
-        }
+    if (gridSize == 1) {
+        Column(modifier = modifier.fillMaxSize()) {
+            // Image Box(top)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(bottom = spacing / 2)
+                    .clip(RoundedCornerShape(cornerRadius))
+            ) {
+                //  this will take one image and make it like that  way so that we can see in the screen
+                ///we can zoom,rotate,change all the configuration etc..
+                RajbirImage(imageRes = image1)
+            }
 
-        // image box(bottom)
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .padding(top = spacing / 2)
-                .clip(RoundedCornerShape(cornerRadius))
-        ) {
-            // we are using the custom gesture component here
-            RajbirImage(imageRes = image2)
+            // image box(bottom)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(top = spacing / 2)
+                    .clip(RoundedCornerShape(cornerRadius))
+            ) {
+                // we are using the custom gesture component here
+                RajbirImage(imageRes = image2)
+            }
+        }
+    } else {
+        val imagePool = listOf(image1, image2)
+        Column(modifier = modifier.fillMaxSize()) {
+            for (row in 0 until gridSize) {
+                Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    for (col in 0 until gridSize) {
+                        val imageIndex = (row * gridSize + col) % imagePool.size
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .padding(spacing / 2)
+                                .clip(RoundedCornerShape(cornerRadius))
+                        ) {
+                            RajbirImage(imageRes = imagePool[imageIndex])
+                        }
+                    }
+                }
+            }
         }
     }
 }
